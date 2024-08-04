@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Result</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px 40px;
+        text-align: center;
+      }
+      h1 {
+        color: #4CAF50;
+      }
+      h2 {
+        color: #555;
+      }
+      .message {
+        font-size: 18px;
+        color: #333;
+      }
+      a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        color: #fff;
+        background-color: #4CAF50;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      a:hover {
+        background-color: #45a049;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hello, {{ name }}!</h1>
+      <div class="message">
+        {% if risk_prediction == 1.0 %}
+          Our model predicted that you might have the risk of cardiovascular disease. Please contact your doctor for a thorough check-up.
+        {% elif risk_prediction == 0.0 %}
+          Our model predicted that you are less likely to have cardiovascular disease. Please maintain a healthy lifestyle and regular check-ups.
+        {% else %}
+          There was an error in the prediction. Please try again.
+        {% endif %}
+      </div>
+      <a href="{{ url_for('index') }}">Go back to the form</a>
+    </div>
+  </body>
+</html>

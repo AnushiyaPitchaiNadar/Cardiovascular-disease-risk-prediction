@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cardiovascular Disease Risk Prediction</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px 40px;
+      }
+      h1, h2 {
+        text-align: center;
+        color: #4CAF50;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .form-section {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+      }
+      .form-input {
+        width: auto;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .form-input:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        outline: none;
+      }
+      button {
+        padding: 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      button:hover {
+        background-color: #45a049;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+      .error-message {
+        color: red;
+        font-size: 12px;
+        display: none;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cardiovascular Disease Risk Prediction</h1>
+      <h2>Hi there! Please answer the following questions to know your risk predicted by our model.</h2>
+      <form id="riskForm" action="/submit" method="post">
+        <div class="form-section">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name" required>
+          <span class="error-message" id="name-error">Name is required.</span>
+        </div>
+        <div class="form-section">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" class="form-input" required>
+            <option value="" disabled selected>Select your gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <span class="error-message" id="gender-error">Gender is required and should be Male, Female, or Other.</span>
+        </div>
+        <div class="form-section">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" class="form-input" placeholder="Enter your age" min="18" max="120" required>
+          <span class="error-message" id="age-error">Age is required and should be between 0 and 120.</span>
+        </div>
+        <div class="form-section">
+          <label for="height">Height (meters)</label>
+          <input type="number" id="height" name="height" class="form-input" placeholder="e.g., 1.75" step="0.01" min="0.5" max="2.5" required>
+          <span class="error-message" id="height-error">Height is required and should be between 0 and 2.5 meters.</span>
+        </div>
+        <div class="form-section">
+          <label for="weight">Weight (kilograms)</label>
+          <input type="number" id="weight" name="weight" class="form-input" placeholder="Enter your weight" min="30" max="300" required>
+          <span class="error-message" id="weight-error">Weight is required and should be between 2 and 300 kilograms.</span>
+        </div>
+        <div class="form-section">
+          <label for="health">General Health</label>
+          <select id="health" name="health" class="form-input" required>
+            <option value="" disabled selected>Select your health status</option>
+            <option value="Excellent">Excellent</option>
+            <option value="Very good">Very good</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+          <span class="error-message" id="health-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="checkup">Routine Checkup</label>
+          <select id="checkup" name="checkup" class="form-input" required>
+            <option value="" disabled selected>Select your checkup frequency</option>
+            <option value="Within past year">Within past year</option>
+            <option value="Within past 2 years">Within past 2 years</option>
+            <option value="Within past 5 years">Within past 5 years</option>
+            <option value="5 or more years ago">5 or more years ago</option>
+          </select>
+          <span class="error-message" id="checkup-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="diabetes">Diabetes</label>
+          <select id="diabetes" name="diabetes" class="form-input" required>
+            <option value="" disabled selected>Select your diabetes status</option>
+            <option value="No">No</option>
+            <option value="Yes (during pregnancy)">Yes (during pregnancy)</option>
+            <option value="Yes (not during pregnancy)">Yes (not during pregnancy)</option>
+          </select>
+          <span class="error-message" id="diabetes-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="smoking">Smoking</label>
+          <select id="smoking" name="smoking" class="form-input" required>
+            <option value="" disabled selected>Select your smoking status</option>
+            <option value="Current smoker">Current smoker</option>
+            <option value="Former smoker">Former smoker</option>
+            <option value="Never smoked">Never smoked</option>
+          </select>
+          <span class="error-message" id="smoking-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="alcohol">Alcohol Consumption</label>
+          <select id="alcohol" name="alcohol" class="form-input" required>
+            <option value="" disabled selected>Select your Alcohol Consumption status</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="Other">Other</option>
+          </select>
+          <span class="error-message" id="alcohol-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="exercise">Exercise</label>
+          <select id="exercise" name="exercise" class="form-input" required>
+            <option value="" disabled selected>Select your exercise frequency</option>
+            <option value="Active">Active</option>
+            <option value="Not active">Not active</option>
+          </select>
+          <span class="error-message" id="exercise-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="mental_health">Mental Health</label>
+          <select id="mental_health" name="mental_health" class="form-input" required>
+            <option value="" disabled selected>Select your mental health status</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+          <span class="error-message" id="mental_health-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="physical_health">Physical Health</label>
+          <select id="physical_health" name="physical_health" class="form-input" required>
+            <option value="" disabled selected>Select your physical health status</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+          <span class="error-message" id="physical_health-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="aids">HIV/AIDS</label>
+          <select id="aids" name="aids" class="form-input" required>
+            <option value="" disabled selected>Select your HIV/AIDS status</option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+          <span class="error-message" id="aids-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="arthritis">Arthritis</label>
+          <select id="arthritis" name="arthritis" class="form-input" required>
+            <option value="" disabled selected>Select your arthritis status</option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+          <span class="error-message" id="arthritis-error">Please select an option.</span>
+        </div>
+        <div class="form-section">
+          <label for="state">Select your State</label>
+          <select id="state" name="state" class="form-input" required>
+            <option value="" disabled selected>Select your state</option>
+          </select>
+          <span class="error-message" id="state-error">Please select a state.</span>
+        </div>
+        <div class="form-section">
+          <label for="metropolitan_status">Select your Metropolitan Status</label>
+          <select id="metropolitan_status" name="metropolitan_status" class="form-input" required>
+            <option value="" disabled selected>Select your metropolitan status</option>
+            <option value="Metropolitan">Metropolitan</option>
+            <option value="Non-metropolitan">Non-metropolitan</option>
+          </select>
+          <span class="error-message" id="metropolitan_status-error">Please select a metropolitan status.</span>
+        </div>
+        <div class="form-section">
+          <label for="urban_status">Select your Urban Status</label>
+          <select id="urban_status" name="urban_status" class="form-input" required>
+            <option value="" disabled selected>Select your urban status</option>
+            <option value="Urban">Urban</option>
+            <option value="Rural">Rural</option>
+          </select>
+          <span class="error-message" id="urban_status-error">Please select an urban status.</span>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <script>
+      document.getElementById('state').innerHTML += `
+        <option value="Alabama">Alabama</option>
+        <option value="Alaska">Alaska</option>
+        <option value="Arizona">Arizona</option>
+        <option value="Arkansas">Arkansas</option>
+        <option value="California">California</option>
+        <option value="Colorado">Colorado</option>
+        <option value="Connecticut">Connecticut</option>
+        <option value="Delaware">Delaware</option>
+        <option value="District of Columbia">District of Columbia</option>
+        <option value="Florida">Florida</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Hawaii">Hawaii</option>
+        <option value="Idaho">Idaho</option>
+        <option value="Illinois">Illinois</option>
+        <option value="Indiana">Indiana</option>
+        <option value="Iowa">Iowa</option>
+        <option value="Kansas">Kansas</option>
+        <option value="Kentucky">Kentucky</option>
+        <option value="Louisiana">Louisiana</option>
+        <option value="Maine">Maine</option>
+        <option value="Maryland">Maryland</option>
+        <option value="Massachusetts">Massachusetts</option>
+        <option value="Michigan">Michigan</option>
+        <option value="Minnesota">Minnesota</option>
+        <option value="Mississippi">Mississippi</option>
+        <option value="Missouri">Missouri</option>
+        <option value="Montana">Montana</option>
+        <option value="Nebraska">Nebraska</option>
+        <option value="Nevada">Nevada</option>
+        <option value="New Hampshire">New Hampshire</option>
+        <option value="New Jersey">New Jersey</option>
+        <option value="New Mexico">New Mexico</option>
+        <option value="New York">New York</option>
+        <option value="North Carolina">North Carolina</option>
+        <option value="North Dakota">North Dakota</option>
+        <option value="Ohio">Ohio</option>
+        <option value="Oklahoma">Oklahoma</option>
+        <option value="Oregon">Oregon</option>
+        <option value="Pennsylvania">Pennsylvania</option>
+        <option value="Rhode Island">Rhode Island</option>
+        <option value="South Carolina">South Carolina</option>
+        <option value="South Dakota">South Dakota</option>
+        <option value="Tennessee">Tennessee</option>
+        <option value="Texas">Texas</option>
+        <option value="Utah">Utah</option>
+        <option value="Vermont">Vermont</option>
+        <option value="Virginia">Virginia</option>
+        <option value="Washington">Washington</option>
+        <option value="West Virginia">West Virginia</option>
+        <option value="Wisconsin">Wisconsin</option>
+        <option value="Wyoming">Wyoming</option>
+      `;
+    </script>
+  </body>
+</html>
